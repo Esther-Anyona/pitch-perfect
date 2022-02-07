@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from config import config_options
 from flask_login import LoginManager
+from flask_wtf.csrf import CSRFProtect
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
@@ -12,6 +13,7 @@ login_manager.login_view = 'auth.login'
 
 def create_app(config_name):
     app = Flask(__name__)
+    csrf = CSRFProtect(app)
 
 # Creating the app configurations
     app.config.from_object(config_options[config_name])
