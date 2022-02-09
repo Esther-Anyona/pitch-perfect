@@ -1,6 +1,7 @@
 from flask import render_template, redirect, url_for, request, abort
 from . import main
 from ..models import User
+from .forms import UpdateProfile
 from flask_login import login_required
 from .. import db,photos
 
@@ -36,7 +37,7 @@ def update_profile(uname):
         db.session.add(user)
         db.session.commit()
 
-        return redirect(url_for('.profile',uname=user.username))
+        return redirect(url_for('main.profile',uname=user.username))
 
     return render_template('profile/update.html',form =form)
 

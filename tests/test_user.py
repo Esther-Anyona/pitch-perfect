@@ -8,7 +8,7 @@ class UserModelTest(unittest.TestCase):
 
     # confirm that password input has a value
     def test_password_setter(self):
-        self.assertTrue(self.new_user.password is not None)
+        self.assertTrue(self.new_user.password-hash is not None)
 
     # confirm that app raises an attribute error when trying to access password property
     def test_no_access_password(self):
