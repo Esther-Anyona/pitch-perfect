@@ -10,10 +10,11 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
+csrf = CSRFProtect()
 
 def create_app(config_name):
     app = Flask(__name__)
-    csrf = CSRFProtect(app)
+    csrf.init_app(app)
 
 # Creating the app configurations
     app.config.from_object(config_options[config_name])

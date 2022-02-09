@@ -1,15 +1,30 @@
 {% extends 'base.html' %}
 
-<h2>hello</h2>
+<!-- {% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.css')}}">
+{% endblock %} -->
+<!-- <h2>hello</h2> -->
 {% block content%}
-
-<div class="container-fluid banner">
-<h2>hello</h2>
 {% block nav %}
-{% include 'nav.html' %}
+    {% include 'nav.html' %}
 {% endblock %}
-<h2><a href="{{url_for('auth.register')}}">Sign Up</a></h2>
-    <div style="background-color: #f4bc01; height:200px; padding-top:80px;"> 
+<div class="container-fluid banner">
+
+<h2 style="text-align:center">Welcome to the Perfect pitch Website</h2>
+<div class="row mt-50">
+    <div class="col col-md-10 col-sm-10 col-lg-10"></div>
+    <div class="col col-md-1 col-sm-1 col-lg-1">
+        <h2><a href="{{url_for('auth.login')}}">Login</a></h2>
+    </div>
+    <div class="col col-md-1 col-sm-1 col-lg-1">
+        <h2><a href="{{url_for('auth.register')}}">Sign up</a></h2>
+    </div>
+</div>
+
+
+
+    <div style="background-color: #f4bc01; height:100px; padding-top:80px;"> 
     </div>
 </div>
 {% endblock %}
