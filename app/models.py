@@ -2,6 +2,7 @@ from . import db
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
 from . import login_manager
+from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -40,7 +41,12 @@ class Pitch(db.Model):
     title = db.Column(db.String(255), unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id))
     content = db.Column(db.Text())
+    category =db.Column(db.String(255))
+    time = db.Column(db.DateTime, default=datetime.utcnow)
 
     def save_pitch(self):
         db.session.add(self)
         db.session.commit()
+
+    def __repr__(self):
+        return f'Pitch {self.content}'
