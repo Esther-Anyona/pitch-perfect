@@ -1,0 +1,11 @@
+.container-fluid{
+    background-color: #655c99;
+}
+
+.copyright{
+    color: white;
+    text-align: center;
+    height: 50px;
+    padding-top: 20px;
+    font-size: 10px;
+}

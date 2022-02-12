@@ -1,25 +1,25 @@
 from flask import render_template, redirect, url_for, request, abort
 from . import main
-from ..models import User
-from .forms import UpdateProfile
+from ..models import User, Pitch
+from .forms import UpdateProfile, PitchForm
 from flask_login import login_required
 from .. import db,photos
 
 
 @main.route('/')
-# @login_required
 def home():
-
-    return render_template('home.html')
+    pitches = Pitch.query.all()
+    return render_template('home.html', pitches=pitches)
 
 @main.route('/user/<uname>')
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
+    pitches = Pitch.get_pitch(user.id)
 
     if user is None:
         abort(404)
 
-    return render_template("profile/profile.html", user = user)
+    return render_template("profile/profile.html", user = user, pitches=pitches)
 
 
 @main.route('/user/<uname>/update',methods = ['GET','POST'])
@@ -54,18 +54,14 @@ def update_pic(uname):
     return redirect(url_for('main.profile',uname=uname))
 
 
-@main.route('/new_pitch', methods = ['POST','GET'])
+@main.route('/pitch/new', methods = ['POST','GET'])
 @login_required
 def new_pitch():
     form = PitchForm()
     if form.validate_on_submit():
-        title = form.title.data
-        content = form.content.data
-        category = form.category.data
-        user_id = current_user
-        time = form.time.data
-        result_object = Pitch(content=content,user_id=current_user._get_object().id,category=category,title=title)
-        result_object.save_pitch()
-        return redirect(url_for('main.index'))
+        pitch= Pitch(title = form.title.data, content = form.content.data)
+        db.session.add(pitch)
+        db.session.commit()
+        return redirect(url_for('main.home'))
         
     return render_template('pitch.html', form = form)

@@ -6,7 +6,7 @@ from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return User.query.get(user_id)
 
 
 class User(UserMixin,db.Model):
@@ -41,12 +41,16 @@ class Pitch(db.Model):
     title = db.Column(db.String(255), unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id))
     content = db.Column(db.Text())
-    category =db.Column(db.String(255))
     time = db.Column(db.DateTime, default=datetime.utcnow)
 
     def save_pitch(self):
         db.session.add(self)
         db.session.commit()
+
+    @classmethod    
+    def get_pitch (cls, id):
+        pitches = Pitch.query.filter_by(user_id = id).all()
+        return pitches
 
     def __repr__(self):
         return f'Pitch {self.content}'

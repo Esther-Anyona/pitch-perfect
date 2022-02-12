@@ -1,33 +1,22 @@
 {% extends 'base.html' %}
-{% import 'macros.html' as macro %}
-<!-- {% block styles %}
-    {{ super() }}
-    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.css')}}">
-{% endblock %} -->
-<!-- <h2>hello</h2> -->
 {% block content%}
 {% block nav %}
     {% include 'nav.html' %}
 {% endblock %}
-<div class="container-fluid banner">
-
 <h2 style="text-align:center">Welcome to the Perfect pitch Website</h2>
-<div class="row mt-50">
-    <div class="col col-md-10 col-sm-10 col-lg-10"></div>
-    <div class="col col-md-1 col-sm-1 col-lg-1">
-        <h2><a href="{{url_for('auth.login')}}">Log In</a></h2>
+{% for pitch in pitches %}
+  <article class="media content-section">
+    <div class="media-body">
+        <a href="#" class="article-title">{{pitch.title}}</a>
+        <p class="article-content">{{pitch.content}}</p>
+        <p class="article-content">{{pitch.user_id}}</p>
+        <p class="article-content">{{pitch.time.strftime("%Y-%m-%d")}}</p>
     </div>
-    <div class="col col-md-1 col-sm-1 col-lg-1">
-        <h2><a href="{{url_for('auth.register')}}">Sign up</a></h2>
-    </div>
-</div>
-<div class="row">
-    <h3>Pitches</h3>
-    {{ macro.show(pitches) }}
-</div>
-
-
-    <div style="background-color: #f4bc01; height:100px; padding-top:80px;"> 
-    </div>
-</div>
+  </article>
+{% endfor %}
+{% if current_user.is_authenticated %}
+            <a href="{{url_for('main.new_pitch')}}" class="nav-item nav-link">New Pitch</a>
+            {% else %}
+            <a href="{{url_for('auth.login')}}">New Pitch</a>
+            {%endif%}
 {% endblock %}
