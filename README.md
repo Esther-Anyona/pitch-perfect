@@ -2,7 +2,7 @@
 ## Developed by:
 [Esther-Anyona](https://github.com/Esther-Anyona)
 
-Hosted on heroku: 
+Heroku link: https://my-pitch-here.herokuapp.com/ 
 
 ## Table of Contents
 <hr>
