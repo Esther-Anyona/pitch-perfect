@@ -3,20 +3,37 @@
 {% block nav %}
     {% include 'nav.html' %}
 {% endblock %}
-<h2 style="text-align:center">Welcome to the Perfect pitch Website</h2>
-{% for pitch in pitches %}
-  <article class="media content-section">
-    <div class="media-body">
-        <a href="#" class="article-title">{{pitch.title}}</a>
-        <p class="article-content">{{pitch.content}}</p>
-        <p class="article-content">{{pitch.user_id}}</p>
-        <p class="article-content">{{pitch.time.strftime("%Y-%m-%d")}}</p>
-    </div>
-  </article>
-{% endfor %}
-{% if current_user.is_authenticated %}
-            <a href="{{url_for('main.new_pitch')}}" class="nav-item nav-link">New Pitch</a>
-            {% else %}
-            <a href="{{url_for('auth.login')}}">New Pitch</a>
-            {%endif%}
+<div class="container">
+  <h2 style="text-align:center">Welcome to the Perfect pitch Website</h2>
+  <blockquote>
+    <p>In life, you only have 60 seconds to impress someone. 1 minute can make or break you. How do we make sure that you use your 1 minute to actually say something meaningful? Check some of the pitches posted by other users. Create your pitch as well.</p>
+
+  </blockquote>
+  <div class="d-flex justify-content-center m-3">
+    {% if current_user.is_authenticated %}
+    <a class="btn btn-info" href="{{url_for('main.new_pitch')}}" type="button">New Pitch</a>
+      {% else %}
+    <a class="btn btn-info" href="{{url_for('auth.login')}}" type="button">New Pitch</a>
+  {%endif%}
+  </div>
+  <div class="card">
+    <div class="row">
+        {% for pitch in pitches %}
+        <div class="col-lg-2 col-md-3 col-sm-3 col-4 d-flex justify-content-center">
+          <div class="card-body">
+            <h4 class="card-title">{{pitch.title}}</h4>
+            <div class="card-text">
+              <p>{{pitch.content}}</p>
+              <p>{{pitch.user.username}}</p>
+              <p class="card-footer">Posted on: {{pitch.time.strftime("%Y-%m-%d")}}</p>
+            </div>          
+        </div>
+        </div>       
+      {% endfor %}
+    </div>           
+  </div>
+</div>
+<div class="footer bg-dark justify-content-center center">
+  <p class="copyright">copyright &copy; 2022 Pitch Perfect</p>
+</div>
 {% endblock %}

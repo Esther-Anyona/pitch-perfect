@@ -12,12 +12,14 @@ def load_user(user_id):
 class User(UserMixin,db.Model):
     __tablename__ = 'users'
     id =db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(255), unique=True)
-    password_hash = db.Column(db.String(255))
-    email = db.Column(db.String(255), unique=True)
+    username = db.Column(db.String(50), unique=True)
+    password_hash = db.Column(db.String(70))
+    email = db.Column(db.String(150), unique=True)
     bio = db.Column(db.Text())
-    profile_pic_path = db.Column(db.String())
+    profile_pic_path = db.Column(db.String(50))
     pitches = db.relationship('Pitch', backref='user', lazy='dynamic')
+    comments = db.relationship('Comment', backref = 'user', lazy = 'dynamic')
+
 
     @property
     def password(self):
@@ -38,10 +40,13 @@ class User(UserMixin,db.Model):
 class Pitch(db.Model):
     __tablename__ = 'pitches'
     id =db.Column(db.Integer, primary_key = True)
-    title = db.Column(db.String(255), unique=True)
-    user_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    title = db.Column(db.String(60), unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     content = db.Column(db.Text())
     time = db.Column(db.DateTime, default=datetime.utcnow)
+    category = db.Column(db.String(150))
+    comments = db.relationship('Comment', backref = 'pitch', lazy = 'dynamic')
+
 
     def save_pitch(self):
         db.session.add(self)
@@ -54,3 +59,16 @@ class Pitch(db.Model):
 
     def __repr__(self):
         return f'Pitch {self.content}'
+
+
+class Comment(db.Model):
+    __tablename__='comments'
+    
+    id = db.Column(db.Integer,primary_key=True)
+    comment = db.Column(db.Text())
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable= False)
+    pitch_id = db.Column(db.Integer, db.ForeignKey('pitches.id'), nullable=False)
+
+    
+    def __repr__(self):
+        return f"Comment : id: {self.id} comment: {self.comment}"

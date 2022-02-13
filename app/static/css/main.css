@@ -1,5 +1,29 @@
-.container-fluid{
-    background-color: #655c99;
+
+h2{
+    text-align: center;
+    color:indigo;
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.card-body{
+    background-color: #dbbadb;
+    opacity: 0.8;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+.card-title{
+    color: #110892;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 600;
+}
+a, href{
+    text-decoration: none;
+}
+.card-footer{
+    color: rgb(0, 2, 128);
+    font-size: 10px;
 }
 
 .copyright{

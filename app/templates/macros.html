@@ -1,0 +1,15 @@
+{% macro displayComment(comments) %}
+<a href="{{url_for('main.new_comment',pitch_id = pitch.id)}}" class="btn btn-info"> Add a comment</a>
+<ul>
+			{% if comments %}
+			{% for comment in comments %}
+				<div class="row text-center">
+						<a><p style="color: brown">{{ comment.comment }}</p></a>
+						<small> posted by {{comment.user.username}}</small>
+				</div>
+			{% endfor %}
+			{% else %}
+			<h3>No comment yet !</h3>
+			{%endif%}
+	</ul>
+{% endmacro %}

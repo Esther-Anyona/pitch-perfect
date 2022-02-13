@@ -8,7 +8,7 @@ from .. import db,photos
 
 @main.route('/')
 def home():
-    pitches = Pitch.query.all()
+    pitches = Pitch.query.order_by(Pitch.time.desc()).all()
     return render_template('home.html', pitches=pitches)
 
 @main.route('/user/<uname>')
@@ -65,3 +65,21 @@ def new_pitch():
         return redirect(url_for('main.home'))
         
     return render_template('pitch.html', form = form)
+
+@main.route('/comment/new/<int:pitch_id>', methods = ['GET','POST'])
+@login_required
+def new_comment(pitch_id):
+    commentform = CommentForm()
+    pitch=Pitch.query.get(pitch_id)
+    if form.validate_on_submit():
+        comment = form.comment.data
+
+        new_comment = Comment(comment = comment, user_id = current_user._get_current_object().id, pitch_id = pitch_id)
+        db.session.add(new_comment)
+        db.session.commit()
+
+
+        return redirect(url_for('.new_comment', pitch_id= pitch_id))
+
+    all_comments = Comment.query.filter_by(pitch_id = pitch_id).all()
+    return render_template('comment.html', form = form, comment = all_comments, pitch = pitch )
